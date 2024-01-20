@@ -44,16 +44,16 @@ body{
 
 .footer-basic li {
     padding:0 10px;
+    color: #FFFFFF;
 }
 
 .footer-basic ul a {
     color: #FFFFFF;
     text-decoration:none;
-    opacity:0.8;
 }
 
 .footer-basic ul a:hover {
-    opacity:1;
+    color: #ffc107;
 }
 
 .footer-basic .social {
@@ -72,11 +72,10 @@ body{
     border:1px solid #ccc;
     margin:0 8px;
     color: #FFFFFF;
-    opacity:0.75;
 }
 
 .footer-basic .social > a:hover {
-    opacity:0.9;
+    color: #ffc107;
 }
 
 .footer-basic .copyright {
