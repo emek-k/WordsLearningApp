@@ -113,42 +113,6 @@ function addNewRow(value) {
     newRow.addRowToTable()
 }
 
-// function addNewRow(value){
-//     let tbody = document.getElementsByClassName('dictionary-tbody')[0];
-//     let newRow = document.createElement('tr');
-//
-//     let thCell = document.createElement('th');
-//     thCell.setAttribute('scope', 'row');
-//     thCell.textContent = (getLastId() + 1).toString();
-//     newRow.appendChild(thCell);
-//
-//     for (let i = 0; i < 5; i++) {
-//         let cell = document.createElement('td');
-//         switch(i){
-//             case 0:
-//                 if(value === undefined)
-//                     value = "#";
-//                 cell.textContent = value;
-//                 break;
-//             case 1:
-//                 cell.textContent = '#';
-//                 break;
-//             case 2:
-//                 cell.textContent = '#';
-//                 break;
-//             case 3:
-//                 cell.textContent = '#';
-//                 break;
-//             case 4:
-//                 cell.textContent = '#';
-//                 break;
-//         }
-//         newRow.appendChild(cell);
-//     }
-//     tbody.appendChild(newRow);
-//
-//     words.push({text: value, element: newRow})
-// }
 
 let searchWord = document.getElementsByClassName('search-word')[0];
 searchWord.addEventListener('input', (e) => {
