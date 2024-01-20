@@ -1,0 +1,18 @@
+body{
+    position: relative;
+}
+.footer-basic {
+    position: absolute;
+    bottom: 0;
+    height: 20dvh;
+    width: 100%;
+}
+.flip-card {
+
+}
+.flip-card-front{
+
+}
+.flip-card-back{
+
+}
