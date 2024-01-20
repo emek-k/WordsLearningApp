@@ -1,6 +1,7 @@
 package edu.pb;
 
 import edu.pb.model.Dictionary;
+import edu.pb.model.Test;
 import edu.pb.model.factories.EnglishWordFactory;
 import edu.pb.model.factories.IWordFactory;
 import edu.pb.model.factories.PolishWordFactory;
@@ -27,11 +28,16 @@ public class Main {
 
         dictionary.addWord("apple", englishFactory.createWord("apple", "A fruit", "jablko"));
         dictionary.addWord("jabłko", polishFactory.createWord("jabłko", "Owoc", "apple"));
-        
+
         Word word = dictionary.findWord("apple");
         if (word != null) {
             System.out.println("Found word: " + word.name + " meaning " + word.translation);
         }
+
+        dictionary.populateDictionary();
+        Test test = new Test(dictionary);
+        test.generateTest("easy");
+        test.displayTest();
     }
 
     //if language == english:
