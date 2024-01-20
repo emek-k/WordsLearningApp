@@ -3,7 +3,7 @@
     padding: 0;
 }
 body{
-    height: 100dvh;
+    min-height: 100dvh;
     /*display: flex;*/
     /*flex-direction: column;*/
 }
@@ -28,6 +28,8 @@ body{
 }
 /*Footer styling*/
 .footer-basic {
+    position: sticky;
+    top: 100%;
     padding:40px 0;
     background-color:#0d6efd;
     color:#FFFFFF;
