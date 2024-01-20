@@ -1,0 +1,52 @@
+interfejs słowo:
+edit()
+get()
+
+
+konkretne słowo:
+implementuje interfejs słowo
+nazwa słowa
+długość słowa
+definicja słowa
+
+tłumaczenie albo zestaw tłumaczeń
+
+trudność słowa ? na podstawie długości i ilości samogłosek
+
+np diagphragm - trudne
+alley - łatwe
+stick - średnie ?
+
+
+====
+
+WordFactory
+zawiera metody do tworzenia slow
+createWord()
+createWordWithTranslation()
+getWordDifficultyLevel()
+
+concrete Factory
+tworzy w odpowiednim jezyku
+
+================
+
+jak bede tworzyl slowo: if language = polish: new PolishWordFactory(name, definition, translations)
+
+mogę dać tablicę ze znakami specjalnymi
+
+co moze byc oddzielne dla poszczegolnych slow?
+setWordDifficulty moze byc rozne i na podstawie znakow specjalnych - jak sa to zawsze poziom +1
+
+waluta, jednostki, historia np do opisu albo definicji
+
+$$$ definicje np slow zamek, 2 rozne beda
+================
+
+Additional Methods for Management and Utility:
+
+updateWord(): Updates the details of an existing word.
+deleteWord(): Removes a word from the collection.
+listWordsByDifficulty(): Lists words filtered by their difficulty level.
+getRandomWord(): Retrieves a random word, useful for quizzes or flashcards.
+searchWord(): Searches for a word based on given criteria (e.g., name, difficulty).
