@@ -8,5 +8,10 @@ public class EnglishWord extends Word{
         this.definition = definition;
         this.translation = translations;
         this.length = name.length();
+        this.difficulty = "easy";
+    }
+
+    public void setDifficulty(String difficulty){
+        this.difficulty = difficulty;
     }
 }

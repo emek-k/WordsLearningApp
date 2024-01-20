@@ -16,7 +16,10 @@ public class EnglishWordFactory implements IWordFactory{
 
     @Override
     public Word createWord(String name, String definition, String translations) {
-        return new EnglishWord(name, definition, translations);
+        String difficulty = setWordDifficulty(name);
+        EnglishWord word = new EnglishWord(name, definition, translations);
+        word.setDifficulty(difficulty);
+        return word;
     }
 
 //    @Override

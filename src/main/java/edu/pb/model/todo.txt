@@ -1,14 +1,8 @@
-interfejs słowo:
-edit()
-get()
+edit slowo:
+w dictionary odwoluje sie do metody konkretnego slowa
 
 
 konkretne słowo:
-implementuje interfejs słowo
-nazwa słowa
-długość słowa
-definicja słowa
-
 tłumaczenie albo zestaw tłumaczeń
 
 trudność słowa ? na podstawie długości i ilości samogłosek
@@ -18,6 +12,9 @@ alley - łatwe
 stick - średnie ?
 
 
+====
+szukanie ale nie te - ma byc oparte o kompozyt i iterator
+kompozyt
 ====
 
 WordFactory
