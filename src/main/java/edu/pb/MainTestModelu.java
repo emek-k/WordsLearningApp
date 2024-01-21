@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Main {
+class ModelMain {
     public static void main(String[] args) {
 
 //        Set<String> set = new HashSet<>(Arrays.asList("pociag", "zug", "costam"));
@@ -34,7 +34,7 @@ public class Main {
             System.out.println("Found word: " + word.name + " meaning " + word.translation);
         }
 
-        dictionary.populateDictionary();
+        dictionary.populateDictionary("src/main/java/edu/pb/model/english_polish.txt");
         Test test = new Test(dictionary);
         test.generateTest("easy");
         test.displayTest();

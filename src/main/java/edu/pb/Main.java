@@ -30,7 +30,7 @@ public class Main {
         // Przykładowo, zestaw obsługiwanych języków: angielski i polski
         Set<String> supportedLanguages = new HashSet<>(Arrays.asList("pol-eng", "pol-fr", "pol-ger", "eng-pol", "fr-pol", "ger-pol"));
         dictionary = new Dictionary(supportedLanguages);
-        dictionary.populateDictionary("src/main/java/edu/pb/model/francais-polish.txt");
+        dictionary.populateDictionary("src/main/java/edu/pb/model/english_polish.txt");
 
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
 
