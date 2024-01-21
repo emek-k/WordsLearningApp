@@ -2,7 +2,8 @@ package edu.pb.model;
 
 import edu.pb.model.words.EnglishWord;
 import edu.pb.model.words.Word;
-
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -15,8 +16,20 @@ public class Dictionary {
     public Dictionary(Set<String> supportedLanguages) {
         this.words = new HashMap<>();
         this.supportedLanguages = supportedLanguages;
-        populateDictionary("src/main/java/edu/pb/model/francais_polish.txt");
+        populateDictionary("src/main/java/edu/pb/model/english_polish.txt");
     }
+
+    public String getJsonRepresentation() {
+        Gson gson = new Gson();
+        JsonObject jsonDictionary = new JsonObject();
+
+        for (Map.Entry<String, Word> entry : words.entrySet()) {
+            jsonDictionary.addProperty(entry.getKey(), gson.toJson(entry.getValue()));
+        }
+
+        return jsonDictionary.toString();
+    }
+
 
     public void populateDictionary(String filePath) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {

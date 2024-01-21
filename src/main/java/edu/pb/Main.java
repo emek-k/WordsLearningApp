@@ -19,14 +19,14 @@ import java.util.List;
 import java.util.Set;
 
 public class Main {
-
+    private static Dictionary dictionary; // Declare the dictionary as a static field
     public static void main(String[] args) throws IOException {
         int port = 8080; // Twój port serwera
 
         // Przykładowo, zestaw obsługiwanych języków: angielski i polski
         Set<String> supportedLanguages = new HashSet<>(Arrays.asList("pol-eng", "pol-fr", "pol-ger", "eng-pol", "fr-pol", "ger-pol"));
-        Dictionary dictionary = new Dictionary(supportedLanguages);
-        dictionary.populateDictionary("src/main/java/edu/pb/model/english_polish.txt");
+        dictionary = new Dictionary(supportedLanguages);
+        dictionary.populateDictionary("src/main/java/edu/pb/model/francais-polish.txt");
 
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
 
@@ -127,8 +127,7 @@ public class Main {
 
         @Override
         public void handle(HttpExchange t) throws IOException {
-            // Obsługa zapytania dla danego słownika
-            String response = "Hello, this is your response for the " + dictionaryName + " dictionary!";
+            String response = dictionary.getJsonRepresentation();
             t.sendResponseHeaders(200, response.length());
             OutputStream os = t.getResponseBody();
             os.write(response.getBytes());
