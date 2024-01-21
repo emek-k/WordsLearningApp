@@ -7,7 +7,13 @@ public abstract class Word implements IWord{
     protected int length;
     protected String definition;
     protected String difficulty;
+    public String getName() {
+        return name;
+    }
 
+    public String getTranslation() {
+        return translation;
+    }
     public String getDifficulty() {
         return difficulty;
     }
