@@ -6,7 +6,6 @@ import edu.pb.model.words.Word;
 import java.util.*;
 
 public class MediumLearningSession extends LearningSessionTemplate {
-    private Dictionary dictionary;
 
     public MediumLearningSession(Dictionary dictionary, String difficulty) {
         super(dictionary, difficulty);
@@ -28,7 +27,10 @@ public class MediumLearningSession extends LearningSessionTemplate {
         } else {
             System.out.println("Incorrect. The correct translation is: " + word.getTranslation());
         }
+
+        saveProgress(); // Zapisz postęp po każdym pytaniu
     }
+
     @Override
     protected List<String> generateOptions(Word word, String difficulty) {
         List<Word> allWords = dictionary.getAllWordsByDifficulty(difficulty);

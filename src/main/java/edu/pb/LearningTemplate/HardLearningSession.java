@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Scanner;
 
 public class HardLearningSession extends LearningSessionTemplate {
-    private Dictionary dictionary;
 
     public HardLearningSession(Dictionary dictionary, String difficulty) {
         super(dictionary, difficulty);
@@ -27,7 +26,10 @@ public class HardLearningSession extends LearningSessionTemplate {
         } else {
             System.out.println("Incorrect. The correct translation is: " + word.getName());
         }
+
+        saveProgress(); // Zapisz postęp po każdym pytaniu
     }
+
     @Override
     protected List<String> generateOptions(Word word, String difficulty) {
         List<Word> allWords = dictionary.getAllWordsByDifficulty(difficulty);

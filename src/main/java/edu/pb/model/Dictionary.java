@@ -1,5 +1,7 @@
 package edu.pb.model;
 
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import edu.pb.model.words.EnglishWord;
 import edu.pb.model.words.Word;
 import com.google.gson.Gson;
@@ -20,16 +22,13 @@ public class Dictionary {
     }
 
     public String getJsonRepresentation() {
-        Gson gson = new Gson();
-        JsonObject jsonDictionary = new JsonObject();
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Word.class, new WordAdapter())
+                .setPrettyPrinting()
+                .create();
 
-        for (Map.Entry<String, Word> entry : words.entrySet()) {
-            jsonDictionary.addProperty(entry.getKey(), gson.toJson(entry.getValue()));
-        }
-
-        return jsonDictionary.toString();
+        return gson.toJson(words.values()); // Zmieniono na values()
     }
-
 
     public void populateDictionary(String filePath) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {

@@ -1,9 +1,13 @@
 package edu.pb;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import com.sun.net.httpserver.HttpServer;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpExchange;
 import edu.pb.model.Dictionary;
+import edu.pb.model.WordAdapter;
 import edu.pb.model.words.Word;
 import edu.pb.LearningTemplate.LearningSessionTemplate;
 import edu.pb.LearningTemplate.EasyLearningSession;
@@ -120,6 +124,10 @@ public class Main {
 
     static class DictionaryHandler implements HttpHandler {
         private final String dictionaryName;
+        private static final Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Word.class, new WordAdapter())
+                .setPrettyPrinting()
+                .create();
 
         public DictionaryHandler(String dictionaryName) {
             this.dictionaryName = dictionaryName;
@@ -127,10 +135,21 @@ public class Main {
 
         @Override
         public void handle(HttpExchange t) throws IOException {
-            String response = dictionary.getJsonRepresentation();
-            t.sendResponseHeaders(200, response.length());
+            // Dodaj nagłówek CORS
+            t.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
+            t.getResponseHeaders().add("Content-Type", "application/json"); // Dodaj ten nagłówek
+
+            JsonObject jsonResponse = new JsonObject();
+            jsonResponse.addProperty("dictionaryName", dictionaryName);
+            jsonResponse.add("dictionaryContent", gson.toJsonTree(dictionary.getAllWords()));
+
+            String response = gson.toJson(jsonResponse); // Użyj Gson do konwersji obiektu jsonResponse na JSON
+
+            byte[] jsonResponseBytes = response.getBytes("UTF-8");
+
+            t.sendResponseHeaders(200, jsonResponseBytes.length);
             OutputStream os = t.getResponseBody();
-            os.write(response.getBytes());
+            os.write(jsonResponseBytes);
             os.close();
         }
     }

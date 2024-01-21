@@ -6,7 +6,6 @@ import edu.pb.model.words.Word;
 import java.util.*;
 
 public class EasyLearningSession extends LearningSessionTemplate {
-    private Dictionary dictionary;
 
     public EasyLearningSession(Dictionary dictionary, String difficulty) {
         super(dictionary, difficulty);
@@ -28,6 +27,8 @@ public class EasyLearningSession extends LearningSessionTemplate {
         } else {
             System.out.println("Incorrect. The correct translation is: " + word.getTranslation());
         }
+
+        saveProgress(); // Zapisz postęp po każdym pytaniu
     }
 
     @Override

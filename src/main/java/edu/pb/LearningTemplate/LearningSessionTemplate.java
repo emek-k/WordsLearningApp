@@ -1,5 +1,6 @@
 package edu.pb.LearningTemplate;
 
+import edu.pb.LearningMemento.LearningMemento;
 import edu.pb.model.Dictionary;
 import edu.pb.model.words.Word;
 
@@ -8,10 +9,13 @@ import java.util.*;
 public abstract class LearningSessionTemplate {
     protected Dictionary dictionary;
     protected String difficulty;
-
+    protected int progress; // Dodaj pole do przechowywania postępu
+    protected LearningMemento memento; // Dodaj pole do przechowywania memento
     public LearningSessionTemplate(Dictionary dictionary, String difficulty) {
         this.dictionary = dictionary;
         this.difficulty = difficulty;
+        this.progress = 0; // Początkowy postęp to 0
+        this.memento = new LearningMemento(difficulty, progress); // Inicjalizuj memento
     }
 
     public void startLearningSession() {
@@ -19,6 +23,7 @@ public abstract class LearningSessionTemplate {
 
         for (Word word : words) {
             performLearning(word);
+            progress++; // Zwiększ postęp po każdym pytaniu
         }
     }
 
@@ -70,4 +75,22 @@ public abstract class LearningSessionTemplate {
     protected abstract void displayQuestion(Word word);
 
     protected abstract void displayResult(boolean isCorrect, Word word);
+    // Zapisz stan
+    public void saveProgress() {
+        memento = new LearningMemento(difficulty, progress);
+    }
+
+    // Przywróć stan
+    public void restoreProgress() {
+        this.difficulty = memento.getDifficulty();
+        this.progress = memento.getProgress();
+    }
+    // Dodaj metody do pobierania informacji o stanie (jeśli potrzebujesz)
+    public String getDifficulty() {
+        return difficulty;
+    }
+
+    public int getProgress() {
+        return progress;
+    }
 }
