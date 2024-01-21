@@ -17,4 +17,5 @@ dreamwork - proces związany z nieświadomymi myślami przenikającymi do snów
 manifest - jawny / oczywisty / objawić się
 conceal - ukryć / skryć
 curriculum - program nauczania
+test - abc
 enrich - wzbogacić
