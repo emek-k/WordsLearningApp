@@ -28,6 +28,7 @@ public class MediumLearningSession extends LearningSessionTemplate {
             System.out.println("Incorrect. The correct translation is: " + word.getTranslation());
         }
 
+        progress++; // Zwiększ postęp po każdym pytaniu
         saveProgress(); // Zapisz postęp po każdym pytaniu
     }
 

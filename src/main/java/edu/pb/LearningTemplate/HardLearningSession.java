@@ -27,6 +27,7 @@ public class HardLearningSession extends LearningSessionTemplate {
             System.out.println("Incorrect. The correct translation is: " + word.getName());
         }
 
+        progress++; // Zwiększ postęp po każdym pytaniu
         saveProgress(); // Zapisz postęp po każdym pytaniu
     }
 

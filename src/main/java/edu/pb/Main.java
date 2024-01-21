@@ -88,6 +88,10 @@ public class Main {
         private final String dictionaryName;
         private final String difficulty;
         private final Dictionary dictionary;
+        private static final Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Word.class, new WordAdapter())
+                .setPrettyPrinting()
+                .create();
 
         public LearnHandler(String dictionaryName, String difficulty, Dictionary dictionary) {
             this.dictionaryName = dictionaryName;
@@ -97,15 +101,31 @@ public class Main {
 
         @Override
         public void handle(HttpExchange t) throws IOException {
-            String response = "Learning session started for " + dictionaryName + " dictionary with difficulty " + difficulty;
-            t.sendResponseHeaders(200, response.length());
-            OutputStream os = t.getResponseBody();
-            os.write(response.getBytes());
-            os.close();
+            // Tutaj zamiast wysyłania prostego tekstu, przygotuj obiekt JSON
+            JsonObject jsonResponse = new JsonObject();
+            jsonResponse.addProperty("message", "Learning session started for " + dictionaryName + " dictionary with difficulty " + difficulty);
+            jsonResponse.addProperty("status", "success");
 
             // Rozpocznij sesję nauki dla danego słownika i poziomu trudności
             LearningSessionTemplate learningSession = createLearningSession(difficulty, dictionary);
             learningSession.startLearningSession();
+
+            // Dodaj informacje o stanie sesji
+            jsonResponse.addProperty("difficulty", learningSession.getDifficulty());
+            jsonResponse.addProperty("progress", learningSession.getProgress());
+
+            // Konwertuj obiekt JSON na tekst
+            String response = gson.toJson(jsonResponse);
+
+            // Dodaj nagłówek CORS
+            t.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
+            t.getResponseHeaders().add("Content-Type", "application/json");
+
+            // Wyslij odpowiedź
+            t.sendResponseHeaders(200, response.length());
+            OutputStream os = t.getResponseBody();
+            os.write(response.getBytes());
+            os.close();
         }
 
         private LearningSessionTemplate createLearningSession(String difficulty, Dictionary dictionary) {
@@ -121,6 +141,7 @@ public class Main {
             }
         }
     }
+
 
     static class DictionaryHandler implements HttpHandler {
         private final String dictionaryName;
