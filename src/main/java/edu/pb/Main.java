@@ -24,24 +24,39 @@ public class Main {
         int port = 8080; // Twój port serwera
 
         // Przykładowo, zestaw obsługiwanych języków: angielski i polski
-        Set<String> supportedLanguages = new HashSet<>(Arrays.asList("pol-eng", "pol-fra", "pol-ger", "eng-pol", "fra-pol", "ger-pol"));
+        Set<String> supportedLanguages = new HashSet<>(Arrays.asList("pol-eng", "pol-fr", "pol-ger", "eng-pol", "fr-pol", "ger-pol"));
         Dictionary dictionary = new Dictionary(supportedLanguages);
         dictionary.populateDictionary("src/main/java/edu/pb/model/english_polish.txt");
 
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
 
-        server.createContext("/api/learn/pol-eng/hard", new LearnHandler("pol-eng", "hard", dictionary));
         server.createContext("/api/learn/pol-eng/easy", new LearnHandler("pol-eng", "easy", dictionary));
         server.createContext("/api/learn/pol-eng/medium", new LearnHandler("pol-eng", "medium", dictionary));
+        server.createContext("/api/learn/pol-eng/hard", new LearnHandler("pol-eng", "hard", dictionary));
+        server.createContext("/api/learn/eng-pol/easy", new LearnHandler("eng-pol", "easy", dictionary));
+        server.createContext("/api/learn/eng-pol/medium", new LearnHandler("eng-pol", "medium", dictionary));
+        server.createContext("/api/learn/eng-pol/hard", new LearnHandler("eng-pol", "hard", dictionary));
+        server.createContext("/api/learn/pol-fr/easy", new LearnHandler("pol-fr", "easy", dictionary));
+        server.createContext("/api/learn/pol-fr/medium", new LearnHandler("pol-fr", "medium", dictionary));
+        server.createContext("/api/learn/pol-fr/hard", new LearnHandler("pol-fr", "hard", dictionary));
+        server.createContext("/api/learn/fr-pol/easy", new LearnHandler("fr-pol", "easy", dictionary));
+        server.createContext("/api/learn/fr-pol/medium", new LearnHandler("fr-pol", "medium", dictionary));
+        server.createContext("/api/learn/fr-pol/hard", new LearnHandler("fr-pol", "hard", dictionary));
+        server.createContext("/api/learn/pol-ger/easy", new LearnHandler("pol-ger", "easy", dictionary));
+        server.createContext("/api/learn/pol-ger/medium", new LearnHandler("pol-ger", "medium", dictionary));
+        server.createContext("/api/learn/pol-ger/hard", new LearnHandler("pol-ger", "hard", dictionary));
+        server.createContext("/api/learn/ger-pol/easy", new LearnHandler("ger-pol", "easy", dictionary));
+        server.createContext("/api/learn/ger-pol/medium", new LearnHandler("ger-eng", "medium", dictionary));
+        server.createContext("/api/learn/ger-pol/hard", new LearnHandler("ger-eng", "hard", dictionary));
 
         // Dodaj obsługę ścieżki "/api/words"
         server.createContext("/api/words", new MyHandler());
 
         server.createContext("/api/dictionary/pol-eng", new DictionaryHandler("pol-eng"));
-        server.createContext("/api/dictionary/pol-fra", new DictionaryHandler("pol-fra"));
+        server.createContext("/api/dictionary/pol-fr", new DictionaryHandler("pol-fr"));
         server.createContext("/api/dictionary/pol-ger", new DictionaryHandler("pol-ger"));
         server.createContext("/api/dictionary/eng-pol", new DictionaryHandler("eng-pol"));
-        server.createContext("/api/dictionary/fra-pol", new DictionaryHandler("fra-pol"));
+        server.createContext("/api/dictionary/fr-pol", new DictionaryHandler("fr-pol"));
         server.createContext("/api/dictionary/ger-pol", new DictionaryHandler("ger-pol"));
 
         // Dodaj obsługę ścieżki "/"

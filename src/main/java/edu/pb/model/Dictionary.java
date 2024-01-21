@@ -15,7 +15,7 @@ public class Dictionary {
     public Dictionary(Set<String> supportedLanguages) {
         this.words = new HashMap<>();
         this.supportedLanguages = supportedLanguages;
-        populateDictionary("src/main/java/edu/pb/model/english_polish.txt");
+        populateDictionary("src/main/java/edu/pb/model/francais_polish.txt");
     }
 
     public void populateDictionary(String filePath) {
