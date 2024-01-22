@@ -14,13 +14,10 @@ import java.io.IOException;
 import java.util.*;
 
 public class Dictionary implements IDictionaryComponent{
+    //out
     private Map<String, Word> words = new HashMap<>();
-    private List<Language> supportedLanguages = new ArrayList<Language>();
 
-//    public Dictionary(IDictionaryComponent supportedLanguages) {
-//        this.supportedLanguages = supportedLanguages;
-//        populateDictionary("src/main/java/edu/pb/model/english_polish.txt");
-//    }
+    private List<Language> supportedLanguages = new ArrayList<Language>();
 
     public Dictionary(){}
 
@@ -30,25 +27,9 @@ public class Dictionary implements IDictionaryComponent{
                 .setPrettyPrinting()
                 .create();
 
-        return gson.toJson(words.values()); // Zmieniono na values()
-    }
-
-    public void populateDictionary(String filePath) {
-        EnglishWordFactory factory = new EnglishWordFactory();
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] parts = line.split(" - ");
-                if (parts.length == 2) {
-                    String name = parts[0];
-                    String translations = parts[1];
-
-                    words.put(name, factory.createWord(name, "definition here", translations));
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        //return gson.toJson(words.values()); // Zmieniono na values()
+        //czy dziala po czystkach
+        return null;
     }
 
     public Word getRandomWord() {
@@ -63,21 +44,6 @@ public class Dictionary implements IDictionaryComponent{
         return null;
     }
 
-    public void addWord(String key, Word word) {
-        words.put(key, word);
-    }
-
-    public void removeWord(String key) {
-        words.remove(key);
-    }
-
-    public Word findWord(String key) {
-        return words.get(key);
-    }
-
-    public void updateWord(String key, Word newWord) {
-        words.put(key, newWord);
-    }
 
     public Map<String, Word> getAllWords() {
         return new HashMap<>(words);
@@ -104,7 +70,6 @@ public class Dictionary implements IDictionaryComponent{
         }
     }
     public void printDetails(String language) {
-        //System.out.println("Język: " + supportedLanguages);
         for (Language lang : supportedLanguages) {
             if (lang.getName().equals(language))
                 lang.printDetails();

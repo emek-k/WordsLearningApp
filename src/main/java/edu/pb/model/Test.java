@@ -6,6 +6,8 @@ import edu.pb.model.words.Word;
 import java.util.*;
 
 public class Test {
+
+    //do calkowitej przebudowy
     private ArrayList<Word> questions;
     private edu.pb.model.dictionary.Dictionary dictionary;
 

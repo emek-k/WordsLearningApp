@@ -1,38 +1,18 @@
-edit slowo:
-w dictionary odwoluje sie do metody konkretnego slowa
+========= !
+kompozyt - waski interfejs bazowy
+
+dostosowac do kompozytu wszystko zeby bylo elegnacko
+
+do generowania testow:
+trzeba w dictionary w difficulty level zmienic
+i w word
+(opcjonalnie dodac w IDictionaryComponent nowa metode getAllWords)
+zeby bralo ze wszystkich kategorii slow
+i opcjonalnie z pozostalych kombinacji
 
 
-konkretne słowo:
-tłumaczenie albo zestaw tłumaczeń
+========= !
 
-trudność słowa ? na podstawie długości i ilości samogłosek
-
-np diagphragm - trudne
-alley - łatwe
-stick - średnie ?
-
-kategorie
-====
-szukanie ale nie te - ma byc oparte o kompozyt i iterator
-kompozyt - waski interfejs bazowy?
-slownik
-jezyk
-poziom trudnosci
-slowo
-metoda add() ?
-addWords() ogarnac
-====
-
-WordFactory
-zawiera metody do tworzenia slow
-createWord()
-createWordWithTranslation()
-getWordDifficultyLevel()
-
-concrete Factory
-tworzy w odpowiednim jezyku
-
-================
 
 jak bede tworzyl slowo: if language = polish: new PolishWordFactory(name, definition, translations)
 
@@ -44,12 +24,3 @@ setWordDifficulty moze byc rozne i na podstawie znakow specjalnych - jak sa to z
 waluta, jednostki, historia np do opisu albo definicji
 
 $$$ definicje np slow zamek, 2 rozne beda
-================
-
-Additional Methods for Management and Utility:
-
-updateWord(): Updates the details of an existing word.
-deleteWord(): Removes a word from the collection.
-listWordsByDifficulty(): Lists words filtered by their difficulty level.
-getRandomWord(): Retrieves a random word, useful for quizzes or flashcards.
-searchWord(): Searches for a word based on given criteria (e.g., name, difficulty).

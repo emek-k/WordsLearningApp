@@ -17,6 +17,37 @@ public class DifficultyLevel implements IDictionaryComponent {
         words.add(word);
     }
 
+    public void removeWord(String name) {
+        Word wordToRemove = findWord(name);
+        if (wordToRemove != null) {
+            words.remove(wordToRemove);
+            System.out.println("Word removed: " + name);
+        } else {
+            System.out.println("Word not found: " + name);
+        }
+    }
+
+    public void updateWord(String name, Word newWord) {
+        Word existingWord = findWord(name);
+        if (existingWord != null) {
+            int index = words.indexOf(existingWord);
+            words.set(index, newWord);
+            System.out.println("Word updated: " + name);
+        } else {
+            System.out.println("Word not found: " + name);
+        }
+    }
+
+    public Word findWord(String name) {
+        for (Word word : words) {
+            if (word.getName().equals(name)) {
+                return word;
+            }
+        }
+        return null;
+    }
+
+
     @Override
     public void printDetails() {
         System.out.println("Poziom trudności: " + level);
@@ -28,8 +59,8 @@ public class DifficultyLevel implements IDictionaryComponent {
     public void printDetails(String wordName) {
         System.out.println("Poziom trudności: " + level);
         for (Word word : words) {
-            if (word.getDifficulty().equals(level)) {
-                word.printDetails(wordName);
+            if (word.getName().equals(wordName)) {
+                word.printDetails();
             }
         }
     }

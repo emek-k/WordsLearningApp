@@ -21,14 +21,4 @@ public class EnglishWordFactory extends WordsFactory{
         word.setDifficulty(difficulty);
         return word;
     }
-
-//    @Override
-//    public void deleteWord() {
-//
-//    }
-//
-//    @Override
-//    public Word getWord() {
-//        return null;
-//    }
 }

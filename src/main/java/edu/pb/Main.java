@@ -32,7 +32,7 @@ public class Main {
         // Przykładowo, zestaw obsługiwanych języków: angielski i polski
         //Set<String> supportedLanguages = new HashSet<>(Arrays.asList("pol-eng", "pol-fr", "pol-ger", "eng-pol", "fr-pol", "ger-pol"));
         dictionary = new Dictionary();
-        dictionary.populateDictionary("src/main/java/edu/pb/model/english_polish.txt");
+        //dictionary.populateDictionary("src/main/java/edu/pb/model/english_polish.txt");
 
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
 
@@ -232,7 +232,7 @@ public class Main {
                 Word newWord = gson.fromJson(requestBody, Word.class);
 
                 // Add the new word to the dictionary
-                dictionary.addWord(newWord.getName(), newWord);
+                //dictionary.addWords(newWord.getName(), newWord);
 
                 // Prepare the response
                 JsonObject jsonResponse = new JsonObject();

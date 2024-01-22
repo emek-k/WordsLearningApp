@@ -20,27 +20,11 @@ import java.util.Set;
 public class ModelMain {
     public static void main(String[] args) {
 
-        //Set<String> supportedLanguages = new HashSet<>(Arrays.asList("English", "Polish", "German"));
-
-//        Dictionary dictionary = new Dictionary();
         String language = "English";
         WordsFactory factory = null;
         if (language == "English") {
             factory = new EnglishWordFactory();
         }
-//
-//        dictionary.addWord("apple", factory.createWord("apple", "A fruit", "jablko"));
-//        //dictionary.addWord("jabłko", factory.createWord("jabłko", "Owoc", "apple"));
-//
-//        Word word = dictionary.findWord("apple");
-//        if (word != null) {
-//            System.out.println("Found word: " + word.name + " meaning " + word.translation);
-//        }
-//
-//        dictionary.populateDictionary("src/main/java/edu/pb/model/english_polish.txt");
-//        Test test = new Test(dictionary);
-//        test.generateTest("easy");
-        //test.displayTest();
 
         Dictionary dict = new Dictionary();
         Language langEN = new Language("English");
@@ -51,9 +35,6 @@ public class ModelMain {
         langEN.addLevel(easy);
         langEN.addLevel(medium);
         langEN.addLevel(hard);
-//        for(Word element : dictionary.getAllWords().values()){
-//            easy.addWords(element);
-//        }
 
         String path = "src/main/java/edu/pb/model/english_polish.txt";
 
@@ -80,8 +61,11 @@ public class ModelMain {
             e.printStackTrace();
         }
 
-        dict.printDetails();
+        easy.addWords(factory.createWord("test123", "to nic nie znaczy", "test123"));
+        easy.updateWord("test123", factory.createWord("test321", "to nic nie znaczy", "test321"));
+        easy.removeWord("test123");
+        //dict.printDetails();
 
-        //langEN.printDetails("easy");
+        langEN.printDetails();
     }
 }
