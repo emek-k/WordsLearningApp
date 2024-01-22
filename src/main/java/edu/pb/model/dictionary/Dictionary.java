@@ -13,15 +13,16 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 
-public class Dictionary {
-    private Map<String, Word> words;
-    private Set<String> supportedLanguages;
+public class Dictionary implements IDictionaryComponent{
+    private Map<String, Word> words = new HashMap<>();
+    private List<Language> supportedLanguages = new ArrayList<Language>();
 
-    public Dictionary(Set<String> supportedLanguages) {
-        this.words = new HashMap<>();
-        this.supportedLanguages = supportedLanguages;
-        populateDictionary("src/main/java/edu/pb/model/english_polish.txt");
-    }
+//    public Dictionary(IDictionaryComponent supportedLanguages) {
+//        this.supportedLanguages = supportedLanguages;
+//        populateDictionary("src/main/java/edu/pb/model/english_polish.txt");
+//    }
+
+    public Dictionary(){}
 
     public String getJsonRepresentation() {
         Gson gson = new GsonBuilder()
@@ -33,6 +34,7 @@ public class Dictionary {
     }
 
     public void populateDictionary(String filePath) {
+        EnglishWordFactory factory = new EnglishWordFactory();
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -40,7 +42,7 @@ public class Dictionary {
                 if (parts.length == 2) {
                     String name = parts[0];
                     String translations = parts[1];
-                    EnglishWordFactory factory = new EnglishWordFactory();
+
                     words.put(name, factory.createWord(name, "definition here", translations));
                 }
             }
@@ -89,5 +91,23 @@ public class Dictionary {
             }
         }
         return filteredWords;
+    }
+
+    public void add(Language lang) {
+        supportedLanguages.add(lang);
+    }
+
+    @Override
+    public void printDetails(){
+        for (Language lang : supportedLanguages) {
+            lang.printDetails();
+        }
+    }
+    public void printDetails(String language) {
+        //System.out.println("Język: " + supportedLanguages);
+        for (Language lang : supportedLanguages) {
+            if (lang.getName().equals(language))
+                lang.printDetails();
+        }
     }
 }

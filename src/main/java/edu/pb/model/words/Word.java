@@ -33,7 +33,11 @@ public abstract class Word implements IDictionaryComponent {
     //docelowo uzywana
     @Override
     public void printDetails() {
-        System.out.println("Word: " + this.name + ", Definition: " + this.definition + ", translation: " + this.translation + ", difficulty " + this.difficulty);
+        System.out.println("Słowo: " + this.name + ", Definition: " + this.definition + ", translation: " + this.translation + ", difficulty: " + this.difficulty);
+    }
+
+    public void printDetails(String extra) {
+        System.out.println("parametr niedozwolony w wywołaniu printDetails dla elementu word");
     }
 
     public String getDefinition() {
