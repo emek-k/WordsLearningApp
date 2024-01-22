@@ -1,7 +1,7 @@
 package edu.pb.LearningTemplate;
 
 import edu.pb.LearningMemento.LearningMemento;
-import edu.pb.model.Dictionary;
+import edu.pb.model.dictionary.Dictionary;
 import edu.pb.model.words.Word;
 
 import java.util.*;

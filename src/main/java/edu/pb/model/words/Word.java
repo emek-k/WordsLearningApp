@@ -1,12 +1,14 @@
 package edu.pb.model.words;
 
-public abstract class Word implements IWord{
-    //protected String language;
+import edu.pb.model.dictionary.IDictionaryComponent;
+
+public abstract class Word implements IDictionaryComponent {
     public String name;
     public String translation;
     protected int length;
     protected String definition;
     protected String difficulty;
+    protected Word word;
     public String getName() {
         return name;
     }
@@ -18,9 +20,20 @@ public abstract class Word implements IWord{
         return difficulty;
     }
 
+//    public Word (Word word) {
+//        this.word = word;
+//    }
+
+    //docelowo nie uzywana
     @Override
     public String toString() {
-        return "Word: " + this.name + ", Definition: " + this.definition + ", translation: " + this.translation; // + inne pola, jeśli to konieczne
+        return "Word: " + this.name + ", Definition: " + this.definition + ", translation: " + this.translation + ", difficulty " + this.difficulty;
+    }
+
+    //docelowo uzywana
+    @Override
+    public void printDetails() {
+        System.out.println("Word: " + this.name + ", Definition: " + this.definition + ", translation: " + this.translation + ", difficulty " + this.difficulty);
     }
 
     public String getDefinition() {

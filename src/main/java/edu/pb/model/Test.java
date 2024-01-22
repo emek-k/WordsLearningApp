@@ -1,12 +1,13 @@
 package edu.pb.model;
 
+import edu.pb.model.dictionary.Dictionary;
 import edu.pb.model.words.Word;
 
 import java.util.*;
 
 public class Test {
     private ArrayList<Word> questions;
-    private Dictionary dictionary;
+    private edu.pb.model.dictionary.Dictionary dictionary;
 
     public Test(Dictionary dictionary) {
         this.dictionary = dictionary;

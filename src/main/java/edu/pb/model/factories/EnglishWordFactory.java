@@ -3,12 +3,12 @@ package edu.pb.model.factories;
 import edu.pb.model.words.EnglishWord;
 import edu.pb.model.words.Word;
 
-public class EnglishWordFactory implements IWordFactory{
+public class EnglishWordFactory extends WordsFactory{
 
     @Override
     public String setWordDifficulty(String name) {
         if (name.length()>7){
-            if (name.length()>12) return "hard";
+            if (name.length()>11) return "hard";
             return "medium";
         }
         return "easy";

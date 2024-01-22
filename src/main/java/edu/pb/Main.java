@@ -6,7 +6,7 @@ import com.google.gson.JsonObject;
 import com.sun.net.httpserver.HttpServer;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpExchange;
-import edu.pb.model.Dictionary;
+import edu.pb.model.dictionary.Dictionary;
 import edu.pb.model.WordAdapter;
 import edu.pb.model.words.Word;
 import edu.pb.LearningTemplate.LearningSessionTemplate;

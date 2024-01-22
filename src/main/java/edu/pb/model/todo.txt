@@ -11,10 +11,16 @@ np diagphragm - trudne
 alley - łatwe
 stick - średnie ?
 
-
+kategorie
 ====
 szukanie ale nie te - ma byc oparte o kompozyt i iterator
-kompozyt
+kompozyt - waski interfejs bazowy?
+slownik
+jezyk
+poziom trudnosci
+slowo
+metoda add() ?
+addWords() ogarnac
 ====
 
 WordFactory
