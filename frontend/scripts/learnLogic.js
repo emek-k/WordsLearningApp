@@ -1,16 +1,18 @@
-const options = {
-    method: 'GET',
-};
+function apiTest(lang, difficulty){
+    const options = {
+        method: 'GET',
+    };
 
-fetch('https://cat-fact.herokuapp.com', options)
-    .then(response => response.json())
-    .then(response => console.log(response))
-    .catch(err => console.error(err));
+    fetch('http://localhost:8080/api/learn/pol-'+lang+'/'+difficulty, options)
+        .then(response => response.json())
+        .then(response => console.log(response))
+        .catch(err => console.error(err));
+}
 
 //dodac 3 nowe divy do strony
 
 function addNewElement(){
-    let container = document.getElementsByClassName('main-container')[0];
+    let container = document.getElementsByClassName('test-content')[0];
 
     let  flipCard = document.createElement('div');
     flipCard.className = 'flip-card';
@@ -39,12 +41,12 @@ function addNewElement(){
     container.appendChild(flipCard);
 }
 
-addNewElement();
-addNewElement();
-addNewElement();
-addNewElement();
-addNewElement();
-addNewElement();
-addNewElement();
-addNewElement();
-addNewElement();
+function startTest(){
+    const lang = document.getElementById('lang').value;
+    const level = document.querySelector('input[name="level"]:checked').value;
+
+    apiTest(lang, level);
+
+    console.log("test is started..." + lang + " " + level);
+}
+addNewElement()

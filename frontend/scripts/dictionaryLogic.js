@@ -1,14 +1,3 @@
-// function apiGet(){
-//     const options = {
-//         method: 'GET',
-//     };
-//
-//     fetch('https://kitsu.io/api/edge/trending/anime', options)
-//         .then(response => response.json())
-//         .then(response => response.map(cat => console.log(cat.title)))
-//         .catch(err => console.error(err));
-// }
-
 class RowDetails{
     id = 1;
     polish = '#';
@@ -58,10 +47,10 @@ class RowDetails{
                     break;
             }
             newRow.appendChild(cell);
-    }
-    tbody.appendChild(newRow);
-    this.element = newRow;
-    words.push(this)
+        }
+        tbody.appendChild(newRow);
+        this.element = newRow;
+        words.push(this)
     }
 
     clone(){
@@ -74,42 +63,38 @@ function apiGet() {
         method: 'GET',
     };
 
-    fetch('https://kitsu.io/api/edge/anime', options)
+    fetch('http://localhost:8080/api/dictionary/pol-eng', options)
         .then(response => response.json())
-        .then(response => displayTitles(response))
+        .then(response => displayWords(response))
         .catch(err => console.error(err));
 }
 
-function displayTitles(apiResponse) {
-    const titlesList = getTitles(apiResponse);
-    titlesList.forEach(title => {
-        console.log(title)
-        addNewRow(title)
-    });
-}
+function displayWords(apiResponse) {
+    const wordsList = apiResponse.dictionaryContent;
 
-function getTitles(apiResponse) {
-    return apiResponse.data.map(anime => anime.attributes.titles.en);
-}
-function getLastId(){
-    let lastRow = document.querySelector('.dictionary-tbody tr:last-child');
-    if(lastRow == null){
-        return 0;
+    if (typeof wordsList === 'object' && wordsList !== null) {
+        Object.keys(wordsList).forEach(wordKey => {
+            const word = wordsList[wordKey];
+            console.log(word);
+            addNewRow(word);
+        });
+    } else {
+        console.error('Invalid format for wordsList:', wordsList);
     }
-    let lastId = lastRow.querySelector('th').textContent;
-    return parseInt(lastId);
 }
 
 let words = [];
 
-function addNewRow(value) {
+function addNewRow(word) {
     let newRow;
     if(words.length === 0){
         newRow = new RowDetails();
     }else{
         newRow = words[words.length-1].clone();
     }
-    newRow.polish = value;
+    newRow.english = word.name;
+    newRow.polish = word.translation;
+    newRow.definition = word.definition;
     newRow.addRowToTable()
 }
 
@@ -120,11 +105,11 @@ searchWord.addEventListener('input', (e) => {
     console.log(words)
     words.forEach(word => {
         const isVisible = word.polish.toLowerCase().includes(value) ||
-                                    word.english.toLowerCase().includes(value) ||
-                                    word.french .toLowerCase().includes(value) ||
-                                    word.german .toLowerCase().includes(value) ||
-                                    word.definition.toLowerCase().includes(value) ||
-                                    word.id === Number(value);
+            word.english.toLowerCase().includes(value) ||
+            word.french .toLowerCase().includes(value) ||
+            word.german .toLowerCase().includes(value) ||
+            word.definition.toLowerCase().includes(value) ||
+            word.id === Number(value);
         word.element.classList.toggle("hide", !isVisible);
     })
 

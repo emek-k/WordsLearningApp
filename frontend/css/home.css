@@ -7,3 +7,6 @@
 .flip-card-back{
 
 }
+.flip-card-front p, .flip-card-back p{
+    color: #ffc107;
+}

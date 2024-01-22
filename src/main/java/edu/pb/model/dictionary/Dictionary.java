@@ -49,6 +49,18 @@ public class Dictionary {
         }
     }
 
+    public Word getRandomWord() {
+        List<String> wordKeys = new ArrayList<>(words.keySet());
+
+        if (!wordKeys.isEmpty()) {
+            Random random = new Random();
+            int randomIndex = random.nextInt(wordKeys.size());
+            String randomKey = wordKeys.get(randomIndex);
+            return words.get(randomKey);
+        }
+        return null;
+    }
+
     public void addWord(String key, Word word) {
         words.put(key, word);
     }
