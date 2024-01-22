@@ -6,13 +6,10 @@ import com.google.gson.JsonObject;
 import com.sun.net.httpserver.HttpServer;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpExchange;
+import edu.pb.LearningTemplate.*;
 import edu.pb.model.dictionary.Dictionary;
 import edu.pb.model.WordAdapter;
 import edu.pb.model.words.Word;
-import edu.pb.LearningTemplate.LearningSessionTemplate;
-import edu.pb.LearningTemplate.EasyLearningSession;
-import edu.pb.LearningTemplate.MediumLearningSession;
-import edu.pb.LearningTemplate.HardLearningSession;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -39,21 +36,12 @@ public class Main {
         server.createContext("/api/learn/pol-en/easy", new LearnHandler("pol-eng", "easy", dictionary));
         server.createContext("/api/learn/pol-en/medium", new LearnHandler("pol-eng", "medium", dictionary));
         server.createContext("/api/learn/pol-en/hard", new LearnHandler("pol-eng", "hard", dictionary));
-        server.createContext("/api/learn/eng-pol/easy", new LearnHandler("eng-pol", "easy", dictionary));
-        server.createContext("/api/learn/eng-pol/medium", new LearnHandler("eng-pol", "medium", dictionary));
-        server.createContext("/api/learn/eng-pol/hard", new LearnHandler("eng-pol", "hard", dictionary));
         server.createContext("/api/learn/pol-fr/easy", new LearnHandler("pol-fr", "easy", dictionary));
         server.createContext("/api/learn/pol-fr/medium", new LearnHandler("pol-fr", "medium", dictionary));
         server.createContext("/api/learn/pol-fr/hard", new LearnHandler("pol-fr", "hard", dictionary));
-        server.createContext("/api/learn/fr-pol/easy", new LearnHandler("fr-pol", "easy", dictionary));
-        server.createContext("/api/learn/fr-pol/medium", new LearnHandler("fr-pol", "medium", dictionary));
-        server.createContext("/api/learn/fr-pol/hard", new LearnHandler("fr-pol", "hard", dictionary));
-        server.createContext("/api/learn/pol-ger/easy", new LearnHandler("pol-ger", "easy", dictionary));
-        server.createContext("/api/learn/pol-ger/medium", new LearnHandler("pol-ger", "medium", dictionary));
-        server.createContext("/api/learn/pol-ger/hard", new LearnHandler("pol-ger", "hard", dictionary));
-        server.createContext("/api/learn/ger-pol/easy", new LearnHandler("ger-pol", "easy", dictionary));
-        server.createContext("/api/learn/ger-pol/medium", new LearnHandler("ger-eng", "medium", dictionary));
-        server.createContext("/api/learn/ger-pol/hard", new LearnHandler("ger-eng", "hard", dictionary));
+        server.createContext("/api/learn/pol-ge/easy", new LearnHandler("pol-ger", "easy", dictionary));
+        server.createContext("/api/learn/pol-ge/medium", new LearnHandler("pol-ger", "medium", dictionary));
+        server.createContext("/api/learn/pol-ge/hard", new LearnHandler("pol-ger", "hard", dictionary));
 
         // Dodaj obsługę ścieżki "/api/words"
         server.createContext("/api/words", new MyHandler());
@@ -105,31 +93,35 @@ public class Main {
 
         @Override
         public void handle(HttpExchange t) throws IOException {
-            // Tutaj zamiast wysyłania prostego tekstu, przygotuj obiekt JSON
-            JsonObject jsonResponse = new JsonObject();
-            jsonResponse.addProperty("message", "Learning session started for " + dictionaryName + " dictionary with difficulty " + difficulty);
-            jsonResponse.addProperty("status", "success");
+            try {
+                JsonObject jsonResponse = new JsonObject();
+                jsonResponse.addProperty("message", "Learning session started for " + dictionaryName + " dictionary with difficulty " + difficulty);
+                jsonResponse.addProperty("status", "success");
 
-            // Rozpocznij sesję nauki dla danego słownika i poziomu trudności
-            LearningSessionTemplate learningSession = createLearningSession(difficulty, dictionary);
-            learningSession.startLearningSession();
+                LearningSessionTemplate learningSession = createLearningSession(difficulty, dictionary);
+                List<LearningData> learningDataList = learningSession.startLearningSession();
 
-            // Dodaj informacje o stanie sesji
-            jsonResponse.addProperty("difficulty", learningSession.getDifficulty());
-            jsonResponse.addProperty("progress", learningSession.getProgress());
+                jsonResponse.add("data", gson.toJsonTree(learningDataList));
 
-            // Konwertuj obiekt JSON na tekst
-            String response = gson.toJson(jsonResponse);
+                String response = gson.toJson(jsonResponse);
+                byte[] responseBytes = response.getBytes("UTF-8");
 
-            // Dodaj nagłówek CORS
-            t.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
-            t.getResponseHeaders().add("Content-Type", "application/json");
+                t.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
+                t.getResponseHeaders().add("Content-Type", "application/json");
 
-            // Wyslij odpowiedź
-            t.sendResponseHeaders(200, response.length());
-            OutputStream os = t.getResponseBody();
-            os.write(response.getBytes());
-            os.close();
+                t.sendResponseHeaders(200, responseBytes.length);
+                OutputStream os = t.getResponseBody();
+                os.write(responseBytes);
+                os.close();
+            } catch (Exception e) {
+                e.printStackTrace(); // Log the exception for debugging
+                // Send an internal server error response
+                String errorResponse = "Internal Server Error";
+                t.sendResponseHeaders(500, errorResponse.length());
+                OutputStream os = t.getResponseBody();
+                os.write(errorResponse.getBytes());
+                os.close();
+            }
         }
 
         private LearningSessionTemplate createLearningSession(String difficulty, Dictionary dictionary) {
@@ -145,7 +137,6 @@ public class Main {
             }
         }
     }
-
     static class DictionaryHandler implements HttpHandler {
         private final String dictionaryName;
         private static final Gson gson = new GsonBuilder()
@@ -159,21 +150,21 @@ public class Main {
 
         @Override
         public void handle(HttpExchange t) throws IOException {
-            // Dodaj nagłówek CORS
-            t.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
-            t.getResponseHeaders().add("Content-Type", "application/json"); // Dodaj ten nagłówek
-
             JsonObject jsonResponse = new JsonObject();
             jsonResponse.addProperty("dictionaryName", dictionaryName);
             jsonResponse.add("dictionaryContent", gson.toJsonTree(dictionary.getAllWords()));
 
-            String response = gson.toJson(jsonResponse); // Użyj Gson do konwersji obiektu jsonResponse na JSON
+            String response = gson.toJson(jsonResponse);
+            byte[] responseBytes = response.getBytes("UTF-8");
 
-            byte[] jsonResponseBytes = response.getBytes("UTF-8");
+            // Add CORS header
+            t.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
+            t.getResponseHeaders().add("Content-Type", "application/json");
 
-            t.sendResponseHeaders(200, jsonResponseBytes.length);
+            // Send response
+            t.sendResponseHeaders(200, responseBytes.length);
             OutputStream os = t.getResponseBody();
-            os.write(jsonResponseBytes);
+            os.write(responseBytes);
             os.close();
         }
     }
@@ -186,14 +177,11 @@ public class Main {
 
         @Override
         public void handle(HttpExchange t) throws IOException {
-            // Dodaj nagłówek CORS
             t.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
-            t.getResponseHeaders().add("Content-Type", "application/json"); // Dodaj ten nagłówek
+            t.getResponseHeaders().add("Content-Type", "application/json");
 
-            // Generate a new random word for each request
             Word randomWord = dictionary.getRandomWord();
-
-            String response = gson.toJson(randomWord); // Użyj Gson do konwersji obiektu jsonResponse na JSON
+            String response = gson.toJson(randomWord);
 
             byte[] jsonResponseBytes = response.getBytes("UTF-8");
 

@@ -12,24 +12,15 @@ public class EasyLearningSession extends LearningSessionTemplate {
     }
 
     @Override
-    protected void performLearning(Word word) {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Translate the word: " + word.getName());
+    protected LearningData performLearning(Word word) {
         List<String> options = generateRandomOptions(word, 3);
-        displayOptions(options);
 
-        int userChoice = getUserChoice(scanner, options.size());
-        String userAnswer = options.get(userChoice - 1);
+        LearningData data = new LearningData();
+        data.setQuestion("Translate the word: " + word.getName());
+        data.setOptions(options);
+        data.setCorrectAnswer(word.getTranslation());
 
-        if (userAnswer.equals(word.getTranslation())) {
-            System.out.println("Correct!");
-        } else {
-            System.out.println("Incorrect. The correct translation is: " + word.getTranslation());
-        }
-
-        progress++; // Zwiększ postęp po każdym pytaniu
-        saveProgress(); // Zapisz postęp po każdym pytaniu
+        return data;
     }
 
     @Override

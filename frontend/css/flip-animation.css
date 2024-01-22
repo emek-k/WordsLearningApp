@@ -3,6 +3,7 @@
     height: 300px;
     margin: 5% auto 5%;
     perspective: 1000px;
+    cursor: pointer;
 }
 
 .flip-card-inner {

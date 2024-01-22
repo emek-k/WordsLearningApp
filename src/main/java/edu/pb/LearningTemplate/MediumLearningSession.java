@@ -12,24 +12,15 @@ public class MediumLearningSession extends LearningSessionTemplate {
     }
 
     @Override
-    protected void performLearning(Word word) {
-        Scanner scanner = new Scanner(System.in);
+    protected LearningData performLearning(Word word) {
+        List<String> options = generateRandomOptions(word, 4);
 
-        System.out.println("Translate the word: " + word.getName());
-        List<String> options = generateRandomOptions(word, 5);
-        displayOptions(options);
+        LearningData data = new LearningData();
+        data.setQuestion("Translate the word: " + word.getName()); // Setting the question field
+        data.setOptions(options);
+        data.setCorrectAnswer(word.getTranslation());
 
-        int userChoice = getUserChoice(scanner, options.size());
-        String userAnswer = options.get(userChoice - 1);
-
-        if (userAnswer.equals(word.getTranslation())) {
-            System.out.println("Correct!");
-        } else {
-            System.out.println("Incorrect. The correct translation is: " + word.getTranslation());
-        }
-
-        progress++; // Zwiększ postęp po każdym pytaniu
-        saveProgress(); // Zapisz postęp po każdym pytaniu
+        return data;
     }
 
     @Override

@@ -18,16 +18,22 @@ public abstract class LearningSessionTemplate {
         this.memento = new LearningMemento(difficulty, progress); // Inicjalizuj memento
     }
 
-    public void startLearningSession() {
+    public List<LearningData> startLearningSession() {
         List<Word> words = dictionary.getAllWordsByDifficulty(difficulty);
-
-        for (Word word : words) {
-            performLearning(word);
-            progress++; // Zwiększ postęp po każdym pytaniu
+        if (words.size() < 5) {
+            throw new RuntimeException("Not enough words in the dictionary for the session");
         }
+        List<LearningData> learningDataList = new ArrayList<>();
+        for(int i=0; i<5; i++){
+            Word word = words.get(i);
+            LearningData data = performLearning(word);
+            learningDataList.add(data);
+            progress++; // Increase progress
+        }
+        return learningDataList;
     }
 
-    protected abstract void performLearning(Word word);
+    protected abstract LearningData performLearning(Word word);
 
     protected List<String> generateRandomOptions(Word word, int numberOfOptions) {
         List<Word> allWords = dictionary.getAllWordsByDifficulty(difficulty);
@@ -93,4 +99,5 @@ public abstract class LearningSessionTemplate {
     public int getProgress() {
         return progress;
     }
+
 }

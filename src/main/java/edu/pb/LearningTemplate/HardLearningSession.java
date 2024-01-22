@@ -3,10 +3,7 @@ package edu.pb.LearningTemplate;
 import edu.pb.model.dictionary.Dictionary;
 import edu.pb.model.words.Word;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class HardLearningSession extends LearningSessionTemplate {
 
@@ -15,20 +12,15 @@ public class HardLearningSession extends LearningSessionTemplate {
     }
 
     @Override
-    protected void performLearning(Word word) {
-        Scanner scanner = new Scanner(System.in);
+    protected LearningData performLearning(Word word) {
+        List<String> options = generateRandomOptions(word, 5);
 
-        System.out.println("Translate the word: " + word.getTranslation());
-        String userAnswer = scanner.nextLine();
+        LearningData data = new LearningData();
+        data.setQuestion("Translate the word: " + word.getName()); // Setting the question field
+        data.setOptions(options);
+        data.setCorrectAnswer(word.getTranslation());
 
-        if (userAnswer.equalsIgnoreCase(word.getName())) {
-            System.out.println("Correct!");
-        } else {
-            System.out.println("Incorrect. The correct translation is: " + word.getName());
-        }
-
-        progress++; // Zwiększ postęp po każdym pytaniu
-        saveProgress(); // Zapisz postęp po każdym pytaniu
+        return data;
     }
 
     @Override
@@ -37,7 +29,14 @@ public class HardLearningSession extends LearningSessionTemplate {
         List<String> options = new ArrayList<>();
 
         // Add the correct answer
-        options.add(word.getName());
+        options.add(word.getTranslation());
+
+        // Add random incorrect answers
+        Random random = new Random();
+        for (int i = 0; i < 4; i++) {
+            Word randomWord = allWords.get(random.nextInt(allWords.size()));
+            options.add(randomWord.getTranslation());
+        }
 
         // Shuffle options to avoid always having the correct one in the same position
         Collections.shuffle(options);
