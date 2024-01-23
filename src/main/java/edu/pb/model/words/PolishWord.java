@@ -5,7 +5,6 @@ import java.util.Set;
 
 public class PolishWord extends Word{
     public static Set<Character> specialCharacters = initializeSpecialCharacters();
-    //dwuznaki
     public static Set<String> diagraphs = initializeDiagraphs();
     public static Set<Character> vowels = initializeVowels();
 

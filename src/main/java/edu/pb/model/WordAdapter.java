@@ -15,7 +15,6 @@ public class WordAdapter implements JsonSerializer<Word> {
         jsonObject.addProperty("name", word.getName());
         jsonObject.addProperty("definition", word.getDefinition());
         jsonObject.addProperty("translations", word.getTranslation());
-        // Dodaj inne właściwości, które chcesz uwzględnić w JSON
         return jsonObject;
     }
 }
