@@ -54,7 +54,15 @@ class RowDetails{
     }
 
     clone(){
-        return new RowDetails(this);
+        return new RowDetails({
+            id: this.id,
+            polish: this.polish,
+            english: this.english,
+            french: this.french,
+            german: this.german,
+            definition: this.definition,
+            element: this.element
+        });
     }
 }
 

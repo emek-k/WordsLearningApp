@@ -28,6 +28,7 @@ public class MediumLearningSession extends LearningSessionTemplate {
         List<Word> allWords = dictionary.getAllWordsByDifficulty(difficulty);
         List<String> options = new ArrayList<>();
 
+        // Add the correct answer
         options.add(word.getTranslation());
 
         Random random = new Random();

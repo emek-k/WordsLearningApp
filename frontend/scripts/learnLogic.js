@@ -134,6 +134,6 @@ function showNextQuestion() {
 function showScore() {
     const questClass = document.getElementsByClassName('question')[0];
     let message = document.createElement('h1');
-    message.textContent = 'You scored ' + userPoints + '!';
+    message.textContent = 'You scored ' + userPoints + '/'+ questions.length + '!';
     questClass.appendChild(message);
 }

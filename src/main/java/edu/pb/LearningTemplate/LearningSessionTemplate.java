@@ -39,6 +39,7 @@ public abstract class LearningSessionTemplate {
         List<Word> allWords = dictionary.getAllWordsByDifficulty(difficulty);
         List<String> options = new ArrayList<>();
 
+        // Add the correct answer
         options.add(word.getTranslation());
 
         Random random = new Random();
@@ -82,6 +83,7 @@ public abstract class LearningSessionTemplate {
         memento = new LearningMemento(difficulty, progress);
     }
 
+    // Przywróć stan
     public void restoreProgress() {
         this.difficulty = memento.getDifficulty();
         this.progress = memento.getProgress();
