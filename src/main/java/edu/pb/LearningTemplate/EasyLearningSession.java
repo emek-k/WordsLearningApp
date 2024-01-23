@@ -28,17 +28,14 @@ public class EasyLearningSession extends LearningSessionTemplate {
         List<Word> allWords = dictionary.getAllWordsByDifficulty(difficulty);
         List<String> options = new ArrayList<>();
 
-        // Add the correct answer
         options.add(word.getTranslation());
 
-        // Add random incorrect answers
         Random random = new Random();
         for (int i = 0; i < 2; i++) {
             Word randomWord = allWords.get(random.nextInt(allWords.size()));
             options.add(randomWord.getTranslation());
         }
 
-        // Shuffle options to avoid always having the correct one in the same position
         Collections.shuffle(options);
 
         return options;

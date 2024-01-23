@@ -9,12 +9,11 @@ import java.util.Map;
 
 public class RestClient {
 
-    private static final String BASE_URL = "http://localhost:8080"; // Zaktualizuj URL backendu
+    private static final String BASE_URL = "http://localhost:8080";
 
     public static void main(String[] args) {
-        // Przykłady użycia
-        get("/api/words"); // Przykładowe zapytanie GET
-        post("/api/words", "{\"word\": \"example\", \"translation\": \"przykład\"}"); // Przykładowe zapytanie POST
+        get("/api/words");
+        post("/api/words", "{\"word\": \"example\", \"translation\": \"przykład\"}");
     }
 
     public static void get(String path) {

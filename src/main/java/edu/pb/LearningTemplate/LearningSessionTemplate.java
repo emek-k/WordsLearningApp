@@ -9,13 +9,13 @@ import java.util.*;
 public abstract class LearningSessionTemplate {
     protected Dictionary dictionary;
     protected String difficulty;
-    protected int progress; // Dodaj pole do przechowywania postępu
-    protected LearningMemento memento; // Dodaj pole do przechowywania memento
+    protected int progress;
+    protected LearningMemento memento;
     public LearningSessionTemplate(Dictionary dictionary, String difficulty) {
         this.dictionary = dictionary;
         this.difficulty = difficulty;
-        this.progress = 0; // Początkowy postęp to 0
-        this.memento = new LearningMemento(difficulty, progress); // Inicjalizuj memento
+        this.progress = 0;
+        this.memento = new LearningMemento(difficulty, progress);
     }
 
     public List<LearningData> startLearningSession() {
@@ -28,7 +28,7 @@ public abstract class LearningSessionTemplate {
             Word word = words.get(i);
             LearningData data = performLearning(word);
             learningDataList.add(data);
-            progress++; // Increase progress
+            progress++;
         }
         return learningDataList;
     }
@@ -39,17 +39,14 @@ public abstract class LearningSessionTemplate {
         List<Word> allWords = dictionary.getAllWordsByDifficulty(difficulty);
         List<String> options = new ArrayList<>();
 
-        // Add the correct answer
         options.add(word.getTranslation());
 
-        // Add random incorrect answers
         Random random = new Random();
         for (int i = 0; i < numberOfOptions - 1; i++) {
             Word randomWord = allWords.get(random.nextInt(allWords.size()));
             options.add(randomWord.getTranslation());
         }
 
-        // Shuffle options to avoid always having the correct one in the same position
         Collections.shuffle(options);
 
         return options;
@@ -68,7 +65,7 @@ public abstract class LearningSessionTemplate {
             System.out.print("Enter your choice (1-" + maxOption + "): ");
             while (!scanner.hasNextInt()) {
                 System.out.println("Invalid input. Please enter a number.");
-                scanner.next(); // Consume the invalid input
+                scanner.next();
             }
             userChoice = scanner.nextInt();
         } while (userChoice < 1 || userChoice > maxOption);
@@ -81,17 +78,14 @@ public abstract class LearningSessionTemplate {
     protected abstract void displayQuestion(Word word);
 
     protected abstract void displayResult(boolean isCorrect, Word word);
-    // Zapisz stan
     public void saveProgress() {
         memento = new LearningMemento(difficulty, progress);
     }
 
-    // Przywróć stan
     public void restoreProgress() {
         this.difficulty = memento.getDifficulty();
         this.progress = memento.getProgress();
     }
-    // Dodaj metody do pobierania informacji o stanie (jeśli potrzebujesz)
     public String getDifficulty() {
         return difficulty;
     }

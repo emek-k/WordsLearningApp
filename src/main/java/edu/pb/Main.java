@@ -16,18 +16,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
 public class Main {
-    private static Dictionary dictionary; // Declare the dictionary as a static field
+    private static Dictionary dictionary;
     public static void main(String[] args) throws IOException {
-        int port = 8080; // Twój port serwera
+        int port = 8080;
 
-        // Przykładowo, zestaw obsługiwanych języków: angielski i polski
-        //Set<String> supportedLanguages = new HashSet<>(Arrays.asList("pol-eng", "pol-fr", "pol-ger", "eng-pol", "fr-pol", "ger-pol"));
         dictionary = new Dictionary();
         dictionary.populateDictionary("src/main/java/edu/pb/model/english_polish.txt");
 
@@ -43,7 +37,6 @@ public class Main {
         server.createContext("/api/learn/pol-ge/medium", new LearnHandler("pol-ger", "medium", dictionary));
         server.createContext("/api/learn/pol-ge/hard", new LearnHandler("pol-ger", "hard", dictionary));
 
-        // Dodaj obsługę ścieżki "/api/words"
         server.createContext("/api/words", new MyHandler());
 
         server.createContext("/api/dictionary/pol-eng", new DictionaryHandler("pol-eng"));
@@ -53,13 +46,12 @@ public class Main {
         server.createContext("/api/dictionary/fr-pol", new DictionaryHandler("fr-pol"));
         server.createContext("/api/dictionary/ger-pol", new DictionaryHandler("ger-pol"));
 
-        // Dodaj obsługę ścieżki "/"
         server.createContext("/", new RootHandler());
 
         server.createContext("/api/randomWord", new RandomWord());
         server.createContext("/api/addWord", new AddWordHandler(dictionary));
 
-        server.setExecutor(null); // używa domyślnego egzekutora
+        server.setExecutor(null);
         server.start();
 
         System.out.println("Serwer uruchomiony na porcie " + port);
@@ -68,7 +60,6 @@ public class Main {
     static class MyHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange t) throws IOException {
-            // Tutaj możesz obsłużyć żądanie HTTP i zwrócić odpowiedź
             String response = "Hello, this is your server response for /api/words!";
             t.sendResponseHeaders(200, response.length());
             OutputStream os = t.getResponseBody();
@@ -114,8 +105,7 @@ public class Main {
                 os.write(responseBytes);
                 os.close();
             } catch (Exception e) {
-                e.printStackTrace(); // Log the exception for debugging
-                // Send an internal server error response
+                e.printStackTrace();
                 String errorResponse = "Internal Server Error";
                 t.sendResponseHeaders(500, errorResponse.length());
                 OutputStream os = t.getResponseBody();
@@ -157,11 +147,9 @@ public class Main {
             String response = gson.toJson(jsonResponse);
             byte[] responseBytes = response.getBytes("UTF-8");
 
-            // Add CORS header
             t.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
             t.getResponseHeaders().add("Content-Type", "application/json");
 
-            // Send response
             t.sendResponseHeaders(200, responseBytes.length);
             OutputStream os = t.getResponseBody();
             os.write(responseBytes);
@@ -192,7 +180,7 @@ public class Main {
         }
     }
     public static class AddWordHandler implements HttpHandler {
-        private final Dictionary dictionary; // Assuming you have a list of words
+        private final Dictionary dictionary;
 
         public AddWordHandler(Dictionary dictionary) {
             this.dictionary = dictionary;
@@ -200,50 +188,40 @@ public class Main {
 
         @Override
         public void handle(HttpExchange t) throws IOException {
-            // Allow requests from any origin (you can refine this based on your needs)
             t.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
             t.getResponseHeaders().add("Access-Control-Allow-Methods", "POST, OPTIONS");
             t.getResponseHeaders().add("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
-            // Check if it's a preflight request (OPTIONS) and handle it
             if (t.getRequestMethod().equalsIgnoreCase("OPTIONS")) {
                 t.sendResponseHeaders(200, -1);
                 return;
             }
 
             if ("POST".equals(t.getRequestMethod())) {
-                // Read the JSON file from the request body
                 String requestBody = getRequestBody(t);
 
-                // Parse the JSON file into a Word object
                 Gson gson = new GsonBuilder().create();
                 Word newWord = gson.fromJson(requestBody, Word.class);
 
-                // Add the new word to the dictionary
                 dictionary.addWord(newWord.getName(), newWord);
 
-                // Prepare the response
                 JsonObject jsonResponse = new JsonObject();
                 jsonResponse.addProperty("message", "Word added successfully");
                 jsonResponse.addProperty("status", "success");
 
-                // Convert the response to JSON
                 String response = gson.toJson(jsonResponse);
                 System.out.println("Received POST request to /api/addWord");
                 System.out.println("Request Body: " + requestBody);
 
-                // Set response headers
                 t.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
                 t.getResponseHeaders().add("Content-Type", "application/json");
 
-                // Send the response
                 t.sendResponseHeaders(200, response.length());
                 OutputStream os = t.getResponseBody();
                 os.write(response.getBytes());
                 os.close();
             } else {
-                // Handle other HTTP methods if needed
-                t.sendResponseHeaders(405, 0); // 405 Method Not Allowed
+                t.sendResponseHeaders(405, 0);
                 t.close();
             }
         }
@@ -261,22 +239,11 @@ public class Main {
     static class RootHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange t) throws IOException {
-            // Obsługa żądania na ścieżkę "/"
             String response = "Hello, this is your server response for the root path!";
             t.sendResponseHeaders(200, response.length());
             OutputStream os = t.getResponseBody();
             os.write(response.getBytes());
             os.close();
         }
-    }
-
-    static void sendGetRequest(String path) throws IOException {
-        System.out.println("Sending GET request to: " + path);
-        RestClient.get(path);
-    }
-
-    static void sendPostRequest(String path, String requestBody) throws IOException {
-        System.out.println("Sending POST request to: " + path);
-        RestClient.post(path, requestBody);
     }
 }
