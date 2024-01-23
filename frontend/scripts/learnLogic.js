@@ -61,6 +61,7 @@ function startTest(){
 
     questions = [];
     currentQuestionIndex = 0;
+    userPoints = 0;
     apiTest(lang, level);
     console.log("test is started..." + lang + " " + level);
 }
